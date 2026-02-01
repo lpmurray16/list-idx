@@ -1,0 +1,27 @@
+<main class="d-flex flex-column container centered" [class.light-mode]="lightModeEnabled">
+  <h2 class="container-header d-flex flex-center gap-1 align-items-center">
+    Shopping List<theme-toggle></theme-toggle>
+  </h2>
+  <div *appLoading="loading">
+    <div *ngIf="shoppingList.length > 0">
+      <ul class="list-group">
+        <li class="list-item" *ngFor="let item of shoppingList" (panleft)="onSwipeLeft(item)">
+          <check-box [checked]="item.purchased" (markAsInCart)="markAsPurchased(item)"
+            (markAsPurchased)="removeFromList(item)"></check-box>
+          <span [class.purchased]="item.purchased">{{item.name}}</span>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="shoppingList.length === 0 && !loading" class="info-box">
+      <p>No items in the shopping list.</p>
+    </div>
+  </div>
+  <form (ngSubmit)="addItem()" class="mt-3">
+    <div class="field">
+      <label>Item Name</label>
+      <input type="text" [(ngModel)]="newItemName" name="newItemName" 
+      placeholder="Enter item name">
+    </div>
+    <button type="submit" class="d-flex flex-center w-100">+ ADD ITEM</button>
+  </form>
+</main>

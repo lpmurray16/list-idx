@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+@import "css/spacing_utils.scss";
+@import "css/flex.scss";
+@import "css/buttons.scss";
+@import "css/inputs.scss";
+@import "css/container.scss";
+@import "css/lists.scss";
+@import "css/forms.scss";
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+@import "css/_variables.scss";
+
+:root {
+    --background: #{$background};
+    --light-text: #{$light-text};
+    --text-color: #{$text-color};
+    --accent-p: #{$accent-p};
+    --accent-hover: #{$accent-hover};
+    --font-family: #{$font-family};
+}
+
+.orange {
+    color: var(--accent-p);
+}
+
+* {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--background);
+    padding: 3%;
+    min-height: 100vh;
+}
+
+.light-mode {
+    --background: #{$light-background};
+    --text-color: #{$light-text};
+}
+

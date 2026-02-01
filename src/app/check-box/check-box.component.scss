@@ -1,0 +1,34 @@
+.checkbox-container {
+    border: 2px solid var(--text-color);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        animation: border-rotate 1s infinite linear;
+    }
+    .fa-xmark {
+        padding: 0.5rem 0.6rem;
+    }
+    .fa-check {
+        padding: 0.5rem;
+    }
+}
+
+@keyframes border-rotate {
+    0% {
+        border-color: var(--text-color) transparent transparent transparent;
+    }
+    25% {
+        border-color: var(--text-color) var(--text-color) transparent transparent;
+    }
+    50% {
+        border-color: transparent var(--text-color) var(--text-color) transparent;
+    }
+    75% {
+        border-color: transparent transparent var(--text-color) var(--text-color);
+    }
+    100% {
+        border-color: var(--text-color) transparent transparent var(--text-color);
+    }
+}

@@ -1,0 +1,32 @@
+form {
+    margin: 2rem 1rem;
+}
+
+input {
+    padding: 20px 10px 10px 10px;
+    border: 1px solid var(--text-color);
+    border-radius: 0;
+    font-size: 1.2rem;
+    width: 100%;
+    background-color: var(--background);
+    box-sizing: border-box;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease-in-out;
+    &:focus {
+        outline: none;
+        border-color: var(--accent-p);
+        box-shadow: 0 0 0 2px var(--accent-p);
+    }
+}
+
+.field {
+    position: relative;
+
+    & label {
+        position: absolute;
+        top: -11px;
+        left: 18px;
+        background: var(--background);
+        padding: 0 7px;
+    }
+}

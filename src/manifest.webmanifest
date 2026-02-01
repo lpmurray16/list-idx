@@ -1,0 +1,21 @@
+{
+  "name": "list-idx",
+  "short_name": "list-idx",
+  "theme_color": "#ee652f",
+  "background_color": "#161616",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

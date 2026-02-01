@@ -1,0 +1,4 @@
+<div class="checkbox-container">
+  <i class="fas fa-check orange" *ngIf="checked" (click)="markAsPurchasedClick()"></i>
+  <i class="fas fa-xmark" *ngIf="!checked" (click)="markAsInCartClick()"></i>
+</div>
