@@ -12,6 +12,7 @@ import { ThemeToggleComponent } from "./theme-toggle/theme-toggle.component";
 import { CheckBoxComponent } from "./check-box/check-box.component";
 import { LoadingDirective } from './loading.directive';
 import { PushNotificationService } from '../services/push-notification.service';
+import { ActionMenuComponent } from './action-menu/action-menu.component';
 
 export class Item {
   key?: string;
@@ -53,18 +54,28 @@ export class AppComponent {
   lightModeEnabled: boolean = false;
   shoppingList: Item[] = [];
   newItemName: string;
-  newItemQuantity: number;
+  newItemQuantity: number = 1;
 
   constructor(private dbService: RealtimeDbService, private pushNotificationService: PushNotificationService) { }
 
   ngOnInit() {
     this.dbService.getShoppingList().subscribe(items => {
+      // Logic to find new items
+      if (!this.loading && items.length > this.shoppingList.length) {
+        const newItems = items.filter(item => !this.shoppingList.some(existing => existing.key === item.key));
+        newItems.forEach(item => {
+          this.pushNotificationService.showNotification('New Item Added', {
+            body: `${item.name} (x${item.quantity}) was added to the list.`,
+            icon: 'assets/icons/icon-192x192.png'
+          });
+        });
+      }
+      
       console.log(items);
       this.shoppingList = items;
       console.log(this.shoppingList);
       this.loading = false;
     });
-    this.pushNotificationService.requestPermission();
   }
 
   addItem() {
@@ -75,12 +86,9 @@ export class AppComponent {
       this.dbService.addShoppingItemWithKey(newItem)
         .then(() => {
           this.newItemName = '';
-          this.newItemQuantity = 0;
+          this.newItemQuantity = 1;
           const inputElement = document.querySelector('input[name="newItemName"]') as HTMLInputElement;
           inputElement.focus();
-          this.pushNotificationService.showNotification('Item Added', {
-            body: `${newItem.name} was added to your shopping list.`
-          });
         })
         .catch(err => console.error('Error adding item:', err));
     }
@@ -99,7 +107,8 @@ export class AppComponent {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ActionMenuComponent
   ],
   imports: [
     BrowserModule,

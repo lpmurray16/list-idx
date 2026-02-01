@@ -1,0 +1,11 @@
+<div class="action-menu-container">
+  <button class="icon-button font-lg" (click)="toggleMenu()" aria-label="Settings">
+    <i class="fa-solid fa-gear"></i>
+  </button>
+
+  <div class="menu" [class.open]="isOpen">
+    <button (click)="requestNotificationPermission()" class="button secondary-button">
+      Enable Notifications
+    </button>
+  </div>
+</div>
