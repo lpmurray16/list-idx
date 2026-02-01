@@ -89,6 +89,10 @@ export class AppComponent {
           this.newItemQuantity = 1;
           const inputElement = document.querySelector('input[name="newItemName"]') as HTMLInputElement;
           inputElement.focus();
+          this.pushNotificationService.showNotification('New Item Added', {
+            body: `${newItem.name} (x${newItem.quantity}) was added to the list.`,
+            icon: 'assets/icons/icon-192x192.png'
+          });
         })
         .catch(err => console.error('Error adding item:', err));
     }
