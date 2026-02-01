@@ -1,12 +1,12 @@
 export const environment = {
     production: false,
     firebaseConfig: {
-        apiKey: "AIzaSyCMxk-T_rbU0bK4I4bYlViNu8EDlazNWy8",
-        authDomain: "idx-shopping-list.firebaseapp.com",
-        databaseURL: "https://idx-shopping-list-default-rtdb.firebaseio.com",
-        projectId: "idx-shopping-list",
-        storageBucket: "idx-shopping-list.appspot.com",
-        messagingSenderId: "262125008286",
-        appId: "1:262125008286:web:52ca2de49c883cca55128f"
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        databaseURL: "YOUR_DATABASE_URL",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
     }
 };
