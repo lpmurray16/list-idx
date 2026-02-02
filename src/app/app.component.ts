@@ -13,13 +13,8 @@ import { CheckBoxComponent } from "./check-box/check-box.component";
 import { LoadingDirective } from './loading.directive';
 import { PushNotificationService } from '../services/push-notification.service';
 import { ActionMenuComponent } from './action-menu/action-menu.component';
-
-export class Item {
-  key?: string;
-  name: string;
-  purchased: boolean;
-  quantity: number;
-}
+import { Item } from '../models/item.model';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +24,7 @@ export class Item {
 export class AppComponent {
 
   loading = true;
+  userId: string;
 
   removeFromList(item: Item) {
     if(item.key){
@@ -56,7 +52,14 @@ export class AppComponent {
   newItemName: string;
   newItemQuantity: number = 1;
 
-  constructor(private dbService: RealtimeDbService, private pushNotificationService: PushNotificationService) { }
+  constructor(private dbService: RealtimeDbService, private pushNotificationService: PushNotificationService) {
+    let storedUserId = localStorage.getItem('userId');
+    if (!storedUserId) {
+        storedUserId = uuidv4();
+        localStorage.setItem('userId', storedUserId);
+    }
+    this.userId = storedUserId;
+  }
 
   ngOnInit() {
     this.dbService.getShoppingList().subscribe(items => {
@@ -64,10 +67,12 @@ export class AppComponent {
       if (!this.loading && items.length > this.shoppingList.length) {
         const newItems = items.filter(item => !this.shoppingList.some(existing => existing.key === item.key));
         newItems.forEach(item => {
-          this.pushNotificationService.showNotification('New Item Added', {
-            body: `${item.name} (x${item.quantity}) was added to the list.`,
-            icon: 'assets/icons/icon-192x192.png'
-          });
+            if (item.ownerId !== this.userId) {
+                this.pushNotificationService.showNotification('New Item Added', {
+                    body: `${item.name} (x${item.quantity}) was added to the list.`,
+                    icon: 'assets/icons/icon-192x192.png'
+                  });
+            }
         });
       }
       
@@ -82,17 +87,13 @@ export class AppComponent {
     if (this.newItemName) {
       if (this.newItemQuantity === 0 || this.newItemQuantity === undefined || this.newItemQuantity === null) { this.newItemQuantity = 1; }
       const key = this.dbService.generateItemKey();
-      const newItem: Item = { key, name: this.newItemName, quantity: this.newItemQuantity, purchased: false };
+      const newItem: Item = { key, name: this.newItemName, quantity: this.newItemQuantity, purchased: false, ownerId: this.userId };
       this.dbService.addShoppingItemWithKey(newItem)
         .then(() => {
           this.newItemName = '';
           this.newItemQuantity = 1;
           const inputElement = document.querySelector('input[name="newItemName"]') as HTMLInputElement;
           inputElement.focus();
-          this.pushNotificationService.showNotification('New Item Added', {
-            body: `${newItem.name} (x${newItem.quantity}) was added to the list.`,
-            icon: 'assets/icons/icon-192x192.png'
-          });
         })
         .catch(err => console.error('Error adding item:', err));
     }
